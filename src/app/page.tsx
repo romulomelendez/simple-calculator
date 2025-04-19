@@ -1,7 +1,12 @@
-const Home = () => {
-  return (
-    <div>MOJO</div>
-  )
-}
+import { Calculator } from "@/components/calculator"
+import { CalculatorProvider } from "@/providers"
+
+const Home = () => (
+    <div className="flex justify-center items-center h-screen">
+        <CalculatorProvider>
+            <Calculator />
+        </CalculatorProvider>
+    </div>
+)
 
 export default Home
