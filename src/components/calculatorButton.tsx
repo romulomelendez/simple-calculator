@@ -1,6 +1,8 @@
 "use client"
 
 import { useDisplay } from "@/hooks"
+
+import { FaGithub } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6"
 type ButtonProps = {
   value: string | number 
@@ -50,7 +52,9 @@ export const CalculatorButton = ({ value }: ButtonProps) => {
         onClick={() => handleKey()}
       >
         {
-          value !== "C" ? value : <FaDeleteLeft />
+          value === "C" ? <FaDeleteLeft />
+          : value === "" ? <FaGithub />
+          : value
         }
       </button>
     )
