@@ -21,6 +21,8 @@ export const CalculatorButton = ({ value }: ButtonProps) => {
     calculatePercentage
   } = useDisplay()
 
+  const getPenultimateElementFromDisplay = (): string | number => display[display.length - 2]
+
   const getLastElementFromDisplay = (): string | number => display[display.length - 1]
 
   const lastElementWasAMathOperator = (): boolean => {
@@ -33,10 +35,28 @@ export const CalculatorButton = ({ value }: ButtonProps) => {
   }
 
   const checkLastOperation = (): void | boolean => lastOperationWasAResult && setDisplay([])
+  
+  const isLeadingZero = (): boolean => {
+
+    const penultElement = getPenultimateElementFromDisplay()
+    const lastElement = getLastElementFromDisplay()
+
+    console.log(typeof penultElement)
+
+    if(typeof value === "number" && lastElement === 0) {
+      if(typeof penultElement === "string" || penultElement === undefined)
+        return true
+    }
+
+    return false
+  }
 
   const handleKey = (): void => {
     
     checkLastOperation()
+
+    if (isLeadingZero())
+      return
 
     switch (value) {
 
@@ -47,38 +67,31 @@ export const CalculatorButton = ({ value }: ButtonProps) => {
         setDisplay((prev) => prev.slice(0, prev.length - 1))
         break
       case "+":
-        if(lastElementWasAMathOperator())
-          return
+        if (lastElementWasAMathOperator() || lastOperationWasAResult) return
         setDisplay((prev) => [...prev, "+"])
         break
       case "-":
-        if(lastElementWasAMathOperator())
-          return
+        if (lastElementWasAMathOperator() || lastOperationWasAResult) return
         setDisplay((prev) => [...prev, "-"])
         break
       case "=":
-        if(lastElementWasAMathOperator())
-          return
+        if (lastElementWasAMathOperator() || lastOperationWasAResult) return
         calculateExpression()
         break
       case "%":
-        if(lastElementWasAMathOperator())
-          return
+        if (lastElementWasAMathOperator() || lastOperationWasAResult) return
         calculatePercentage()
         break
       case ",":
-        if(lastElementWasAMathOperator())
-          return
+        if (lastElementWasAMathOperator() || lastOperationWasAResult) return
         setDisplay((prev) => [...prev, "."])
         break
       case "x":
-        if(lastElementWasAMathOperator())
-          return
+        if (lastElementWasAMathOperator() || lastOperationWasAResult) return
         setDisplay((prev) => [...prev, "*"])
         break
       case "÷":
-        if(lastElementWasAMathOperator())
-          return
+        if (lastElementWasAMathOperator() || lastOperationWasAResult) return
         setDisplay((prev) => [...prev, "/"])
         break
       case "github":
@@ -86,8 +99,7 @@ export const CalculatorButton = ({ value }: ButtonProps) => {
         break
       default:
         setDisplay((prev) => [...prev, value])
-        if(lastOperationWasAResult)
-          setLastOperationWasAResult(false)
+        if (lastOperationWasAResult) setLastOperationWasAResult(false)
         break
     }
   }
