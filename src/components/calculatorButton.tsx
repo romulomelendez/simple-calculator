@@ -13,12 +13,24 @@ type ButtonProps = {
 export const CalculatorButton = ({ value }: ButtonProps) => {
 
   const {
+    display,
     setDisplay,
     lastOperationWasAResult,
     setLastOperationWasAResult,
     calculateExpression,
     calculatePercentage
   } = useDisplay()
+
+  const getLastElementFromDisplay = (): string | number => display[display.length - 1]
+
+  const lastElementWasAMathOperator = (): boolean => {
+
+    const lastElement = getLastElementFromDisplay()
+
+    if(typeof lastElement === "string" || display.length === 0)
+      return true
+    return false
+  }
 
   const checkLastOperation = (): void | boolean => lastOperationWasAResult && setDisplay([])
 
@@ -34,19 +46,39 @@ export const CalculatorButton = ({ value }: ButtonProps) => {
       case "C":
         setDisplay((prev) => prev.slice(0, prev.length - 1))
         break
+      case "+":
+        if(lastElementWasAMathOperator())
+          return
+        setDisplay((prev) => [...prev, "+"])
+        break
+      case "-":
+        if(lastElementWasAMathOperator())
+          return
+        setDisplay((prev) => [...prev, "-"])
+        break
       case "=":
+        if(lastElementWasAMathOperator())
+          return
         calculateExpression()
         break
       case "%":
+        if(lastElementWasAMathOperator())
+          return
         calculatePercentage()
         break
       case ",":
+        if(lastElementWasAMathOperator())
+          return
         setDisplay((prev) => [...prev, "."])
         break
       case "x":
+        if(lastElementWasAMathOperator())
+          return
         setDisplay((prev) => [...prev, "*"])
         break
       case "÷":
+        if(lastElementWasAMathOperator())
+          return
         setDisplay((prev) => [...prev, "/"])
         break
       case "github":
