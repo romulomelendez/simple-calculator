@@ -4,14 +4,18 @@ import { createContext, Dispatch, SetStateAction } from "react"
 
 interface CalculatorContextType {
     display: (string | number)[]
-    setDisplay: Dispatch<SetStateAction<(string | number)[]>>,
+    lastOperationWasAResult: boolean
+    setDisplay: Dispatch<SetStateAction<(string | number)[]>>
+    setLastOperationWasAResult: Dispatch<SetStateAction<boolean>>
     calculateExpression: () => void
     calculatePercentage: () => void
 }
 
-const defaultValues = {
-    display: [1, "+", 1],
+const defaultValues: CalculatorContextType = {
+    display: [],
+    lastOperationWasAResult: false,
     setDisplay: () => {},
+    setLastOperationWasAResult: () => {},
     calculateExpression: () => {},
     calculatePercentage: () => {}
 }

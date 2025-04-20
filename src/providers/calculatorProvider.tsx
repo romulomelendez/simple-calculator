@@ -7,6 +7,7 @@ import { CalculatorContext } from "@/contexts"
 export const CalculatorProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
     const [display, setDisplay] = useState<(string | number)[]>([])
+    const [lastOperationWasAResult, setLastOperationWasAResult] = useState<boolean>(false)
     
     const calculateExpression = (): void => {
 
@@ -15,6 +16,7 @@ export const CalculatorProvider: React.FC<{ children: ReactNode }> = ({ children
         try {
             const total = eval(expression)
             setDisplay([total])
+            setLastOperationWasAResult(true)
         } catch (error) {
             alert("Invalid expression")
             console.error("Error evaluating expression:", error)
@@ -40,7 +42,15 @@ export const CalculatorProvider: React.FC<{ children: ReactNode }> = ({ children
     }    
 
     return (
-        <CalculatorContext.Provider value={{ display, setDisplay, calculateExpression, calculatePercentage }}>
+        <CalculatorContext.Provider
+          value={{
+            display,
+            lastOperationWasAResult,
+            setDisplay,
+            setLastOperationWasAResult,
+            calculateExpression,
+            calculatePercentage
+        }}>
             { children }
         </CalculatorContext.Provider>
     )

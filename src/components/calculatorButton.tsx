@@ -12,9 +12,19 @@ type ButtonProps = {
 
 export const CalculatorButton = ({ value }: ButtonProps) => {
 
-  const { setDisplay, calculateExpression, calculatePercentage } = useDisplay()
+  const {
+    setDisplay,
+    lastOperationWasAResult,
+    setLastOperationWasAResult,
+    calculateExpression,
+    calculatePercentage
+  } = useDisplay()
+
+  const checkLastOperation = (): void | boolean => lastOperationWasAResult && setDisplay([])
 
   const handleKey = (): void => {
+    
+    checkLastOperation()
 
     switch (value) {
 
@@ -44,6 +54,8 @@ export const CalculatorButton = ({ value }: ButtonProps) => {
         break
       default:
         setDisplay((prev) => [...prev, value])
+        if(lastOperationWasAResult)
+          setLastOperationWasAResult(false)
         break
     }
   }
