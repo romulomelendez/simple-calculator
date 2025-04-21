@@ -4,7 +4,7 @@ import { Keyboard } from "./keyboard"
 export const Calculator = () => {
 
     return (
-        <div className="bg-gray-950 flex flex-col p-5 gap-5 rounded-sm">
+        <div className="flex flex-col justify-center items-center w-screen h-screen gap-5 rounded-sm bg-gray-950">
             <Display />
             <Keyboard />
         </div>

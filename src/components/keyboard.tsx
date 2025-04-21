@@ -11,7 +11,7 @@ export const Keyboard = () => {
     ]
 
     return (
-        <div className="grid grid-cols-4 gap-6">
+        <div className="grid grid-cols-4 w-[370px] md:w-[500px] h-[400px] md:h-[450px] gap-2 md:gap-3">
             {
                 keys.map((key, index) => (
                     <CalculatorButton
